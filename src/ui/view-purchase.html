@@ -48,7 +48,7 @@
 <body>
     <div class="container">
         <div class="text-end mb-3">
-            <a id="back" type="submit" class="btn btn-primary" onclick="location.href='sales.html'">Back</a>
+            <a id="back" type="submit" class="btn btn-primary" onclick="location.href='purchase.html'">Back</a>
         </div>
         <form id="salesForm" class="card card-body">
             <h2 class="text-center py-3">Invoice</h2>
@@ -63,13 +63,8 @@
                 </div>
                 <div class="col-md-6" style="width: 50%;">
                     <h5>To:</h5>
-                    <p id="customer_name"></p>
+                    <p id="company_name"></p>
                     <p id="address"></p>
-                    <div class="csc-custom-66">
-                        <p id="country"></p>,
-                        <p id="state"></p>,
-                        <p id="city"></p>
-                    </div>
                 </div>
             </div>
             <hr/>
@@ -89,7 +84,7 @@
                                 <label><strong>Date :</strong></label>
                             </td>
                             <td>
-                                <P id="sales_date"></P>
+                                <P id="purchase_date"></P>
                             </td>
                         </tr>
                         <tr>
@@ -156,23 +151,24 @@
                 </div>
                 <div class="col-md-3 mt-5" style="width: 30%;">
                     <div class="col-md-12 mt-2 d-flex">
-                        <label style="width: 115px;">Total Gross :</label>
+                        <label style="width: 145px;">Total Gross :</label>
                         <p id="total_gross"></p>
                     </div>
                     <div class="col-md-12 mt-2 d-flex">
-                        <label style="width: 115px;">GST Amount :</label>
+                        <label style="width: 145px;">GST Amount :</label>
                         <p id="gst"></p>
                     </div>
                     <div class="col-md-12 mt-2 d-flex">
-                        <label style="width: 115px;">Other Charge :</label>
+                        <label style="width: 145px;">Other Charge :</label>
                         <p id="other_charge"></p>
                     </div>
                     <div class="col-md-12 mt-2 d-flex">
-                        <label style="width: 115px;">Total Amount :</label>
+                        <label style="width: 145px;">Total Amount :</label>
                         <p id="total_amount"></p>
                     </div>
                 </div>
             </div>
+
             <div class="text-center pt-4 pb-2">
                 <button id="printpagebutton" type="submit" onclick="printpage()" class="btn btn-primary sub-btn114">
                     Print
@@ -184,32 +180,29 @@
 </body>
 <!-- var principalCreate = 1; -->
 <script>
-  const salesDataList = window.localStorage.getItem("salesDataList");
-  const salesData = JSON.parse(salesDataList);
-  $("#invoice_no").text(salesData[0][0]['invoice_no']);
-  $("#sales_date").text(salesData[0][0]['sales_date'].split("T", 1));
-  $("#order_no").text(salesData[0][0]['order_no']);
-  $("#customer_name").text(salesData[0][0]['customer_name']);
-  $("#address").text(salesData[0][0]['address']);
-  $("#payment_type").text(salesData[0][0]['payment_type']);
-  $("#country").text(salesData[0][0]['country']);
-  $("#state").text(salesData[0][0]['state']);
-  $("#city").text(salesData[0][0]['city']);
-  $("#contact_no").text(salesData[0][0]['contact_no']);
-  $("#total_amount").text(salesData[0][0]['total_amount']);
-  $("#total_gross").text(salesData[0][0]['total_gross']);
+  const purchaseDataList = window.localStorage.getItem("purchaseDataList");
+  const purchaseData = JSON.parse(purchaseDataList);
+  $("#invoice_no").text(purchaseData[0][0]['invoice_no']);
+  $("#purchase_date").text(purchaseData[0][0]['purchase_date'].split("T", 1));
+  $("#order_no").text(purchaseData[0][0]['order_no']);
+  $("#company_name").text(purchaseData[0][0]['company_name']);
+  $("#address").text(purchaseData[0][0]['address']);
+  $("#payment_type").text(purchaseData[0][0]['payment_type']);
+  $("#contact_no").text(purchaseData[0][0]['phone']);
+  $("#total_amount").text(purchaseData[0][0]['total_amount']);
+  $("#total_gross").text(purchaseData[0][0]['total_gross']);
   
-  Object.keys(salesData[0]).forEach(function (key) {
+  Object.keys(purchaseData[0]).forEach(function (key) {
     $("#tablebody").append(`
   <tr>
-                      <td>` + salesData[0][key]['qr_code'] + `</td>
-                      <td>` + salesData[0][key]['name'] + `</td>
-                      <td>` + salesData[0][key]['quantity'] + `</td>
-                      <td>` + salesData[0][key]['unit'] + `</td>
-                      <td>` + salesData[0][key]['price'] + `</td>
-                      <td>` + salesData[0][key]['total'] + `</td>
-                      <td>` + salesData[0][key]['gst'] + `</td>
-                      <td>` + salesData[0][key]['total'] + `</td>
+                      <td>` + purchaseData[0][key]['qr_code'] + `</td>
+                      <td>` + purchaseData[0][key]['name'] + `</td>
+                      <td>` + purchaseData[0][key]['quantity'] + `</td>
+                      <td>` + purchaseData[0][key]['unit'] + `</td>
+                      <td>` + purchaseData[0][key]['price'] + `</td>
+                      <td>` + purchaseData[0][key]['total'] + `</td>
+                      <td>` + purchaseData[0][key]['gst'] + `</td>
+                      <td>` + purchaseData[0][key]['total'] + `</td>
                     </tr>
      `);
     });
@@ -220,7 +213,9 @@ window.localStorage.clear();
         document.getElementById("print").click();
       }
     }
+
     function printpage() {
+        
         //Get the print button and put it into a variable
         var printButton = document.getElementById("printpagebutton");
         var back = document.getElementById("back");
@@ -234,4 +229,5 @@ window.localStorage.clear();
         back.style.visibility = 'visible';
     }
 </script>
+
 </html>

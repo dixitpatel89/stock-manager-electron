@@ -1,47 +1,39 @@
 const main = require('../main')
 
-const salesForm = document.querySelector("#salesForm");
-const customer_name = document.querySelector("#customer_name");
+const purchaseForm = document.querySelector("#purchaseForm");
+const company_name = document.querySelector("#company_name");
 const address = document.querySelector("#address");
-const country = document.querySelector("#country");
-const state = document.querySelector("#state");
-const city = document.querySelector("#city");
 const contact_no = document.querySelector("#contact_no");
 const payment_type = document.querySelector("#payment_type");
 const invoice_no = document.querySelector("#invoice_no");
-const sales_date = document.querySelector("#sales_date");
+const purchase_date = document.querySelector("#purchase_date");
 const order_no = document.querySelector("#order_no");
 const productsList = document.querySelector("#products");
 
 const custId = document.querySelector("#custId");
 
-
-
-salesForm.addEventListener('submit', async(e) =>{
+purchaseForm.addEventListener('submit', async(e) =>{
     
     try{
         e.preventDefault();
         const product ={
-            customer_name:customer_name.value,
+            invoice_no:invoice_no.value,
+            purchase_date:purchase_date.value,
+            order_no:order_no.value,
+            company_name:company_name.value,
             address:address.value,
             payment_type:payment_type.value,
-            country:country.value,
-            state:state.value,
-            city:city.value,
-            contact_no:contact_no.value,
-            invoice_no:invoice_no.value,
-            sales_date:sales_date.value,
-            order_no:order_no.value,
+            phone:contact_no.value,
             total_amount:total_amount.value,
             total_gross:total_gross.value
         }
-                const savedProduct = await main.createSales(product);
+                 await main.createPurchase(product);
     
         const productItem ={
             custIds:custId.value,
         }
         const prod = [];
-        for(let i = 1; i <= (custId.value); i++) {
+        for(let i = 1; i <= (--custId.value); i++) {
             var ddl_product_varient_id = 'provarients'+i;
             var ddl_product_name = 'name'+i;
             var unit_id = 'unit'+i;
@@ -49,14 +41,14 @@ salesForm.addEventListener('submit', async(e) =>{
             var price_id = 'price'+i;
             var total_id = 'totalamount'+i;
 
-            // const ddl_product_value = document.getElementById(ddl_product_id).value;
             const ddl_product_varient_value = document.getElementById(ddl_product_varient_id).value;
             const ddl_product_value = document.getElementById(ddl_product_name).value;
             const qnt_value = document.getElementById(qnt_id).value;
             const unit_value = document.getElementById(unit_id).value;
             const price_value = document.getElementById(price_id).value;
             const total_value = document.getElementById(total_id).value;
-       if(qnt_value!=''||qnt_value!=0){
+
+       if(qnt_value!=''||qnt_value!=0||qnt_value == undefined){
             let myrecord = {
                 invoice_no:invoice_no.value,
                 product_varients_id: ddl_product_varient_value,
@@ -67,12 +59,12 @@ salesForm.addEventListener('submit', async(e) =>{
                 price: price_value,
                 total: total_value,
             };
-            const savedProductItem = await main.createProductSalesItem(myrecord);
+            const savedProductItem = await main.createProductPurchaseItem(myrecord);
             }
         }
-          salesForm.reset()
-          customer_name.focus()
-          location.href='sales.html'
+        purchaseForm.reset()
+        company_name.focus()
+        location.href='purchase.html'
     }catch(error){
         console.log(error);
     }
